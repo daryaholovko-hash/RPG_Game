@@ -6,6 +6,12 @@
         void Equip();
 
         void Unequip();
+    }
+
+    public class Player
+    {
+
+    }
     internal class Program
     {
         static void Main(string[] args)
