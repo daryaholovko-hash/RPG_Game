@@ -1,16 +1,88 @@
-﻿namespace RPG_Game
+﻿using static RPG_Game.IEquippable;
+
+namespace RPG_Game
 {
-    public partial interface IEquippable
+
+    public class Player : Characer, ISpellCaster
     {
-        string Name { get; }
-        void Equip();
+        private int _mana;
+        private int _maxMana;
+        private int _experience;
+        private int _level;
+        private IEquippable _equippableWeapon;
+        private List<Item> _inventory;
 
-        void Unequip();
-    }
+        public int Mana
+        {
+            get => _mana;
+            private set => _mana = Math.Max(0, Math.Min(value, _maxMana));
+        }
 
-    public class Player
-    {
+        public int MaxMana
+        {
+            get => _maxMana;
+            private set => _maxMana = value;
+        }
 
+        public int Experience
+        {
+            get => _experience;
+            private set => _experience = value;
+        }
+
+
+        public int Level
+        {
+            get => _level;
+            private set => _level = value;
+
+        }
+
+        public IReadOnlyList<Item> Inventory => _inventory.AsReadOnly();
+
+        public Player(string name) : base(name, 100, 10)
+        {
+            _maxMana = 50;
+            _mana = _maxMana;
+            _experience = 0;
+            _level = 1;
+            _inventory = new List<Item>();
+        }
+
+        public override void Attack(Characer target )
+        {
+            var rand = new Random();
+            var baseDamage = Strength;
+
+            if (_equippableWeapon != null && _equippableWeapon is Weapon weapon)
+            {
+                baseDamage = weapon.Damage;
+            }
+
+            var isCritical = rand.Next(100) < 20
+                var damage = isCritical ? baseDamage * 2 : baseDamage;
+
+            if (isCritical )
+            {
+                Console.WriteLine($"КРИТИЧНИЙ УДАР! {Name} завдвє {damage} пошкоджень {target.Name}!");
+
+            }
+            else
+            {
+                Console.WriteLine($"{Name} атакує {target.Name} і завдає {damage} пошкоджень!");
+            }
+            target.TakeDamage( damage );
+        }
+
+        public void CastSpell(Characer target)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RestoreMana(int amount)
+        {
+            throw new NotImplementedException();
+        }
     }
     internal class Program
     {
