@@ -1,7 +1,21 @@
-﻿using static RPG_Game.IEquippable;
+﻿
 
 namespace RPG_Game
 {
+    public class Weapon : Item, IEquippable
+    {
+        public int Damage { get; protected set; }
+
+        public Weapon(string name, string description, int damage) : base(name, description)
+        {
+            Damage = damage;
+        }
+
+
+    }
+
+
+
 
     public class Player : Characer, ISpellCaster
     {
@@ -84,6 +98,8 @@ namespace RPG_Game
             throw new NotImplementedException();
         }
     }
+
+
     internal class Program
     {
         static void Main(string[] args)
